@@ -8,6 +8,12 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+const corsHeaders = {
+	'Access-Control-Allow-Headers': '*', // What headers are allowed. * is wildcard. Instead of using '*', you can specify a list of specific headers that are allowed, such as: Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept, Authorization.
+	'Access-Control-Allow-Methods': 'GET', // Allowed methods. Others could be GET, PUT, DELETE etc.
+	'Access-Control-Allow-Origin': '*', // This is URLs that are allowed to access the server. * is the wildcard character meaning any URL can.
+};
+
 export default {
 	async fetch(request, env, ctx) {
 		// Use a default IP address for development if cf-connecting-ip is not available
@@ -28,7 +34,10 @@ export default {
 		return new Response(
 			JSON.stringify(jsonData['Answer'].find((item) => item.type === 1 && item.data === client_IP) || { response: null }),
 			{
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'Content-type': 'application/json',
+					...corsHeaders, //uses the spread operator to include the CORS headers.
+				},
 			}
 		);
 	},
