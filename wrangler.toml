@@ -1,0 +1,7 @@
+name = "peer-worker"
+main = "src/worker.js"
+compatibility_date = "2024-12-17"
+workers_dev = true
+
+[observability]
+enabled = true
